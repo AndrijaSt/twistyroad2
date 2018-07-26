@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Road : MonoBehaviour
 {
-    public float Rotation = 2.0f;
+    public float maxRotation = 2.0f;
+    public float Rotation = 0.01f;
     public int length = 100;
     public float width = 0.5f;
     public float Slope = 0.3f;
@@ -21,6 +22,8 @@ public class Road : MonoBehaviour
     {
 
         rotation += Random.Range(-Rotation, Rotation);
+        if (rotation >  maxRotation) rotation =  maxRotation;
+        if (rotation < -maxRotation) rotation = -maxRotation;
         return rotation;
     }
 
