@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class movement : MonoBehaviour
 {
@@ -12,9 +14,16 @@ public class movement : MonoBehaviour
     private Vector3 v;
     private Rigidbody rb;
 
-    void OnCollisionEnter()
+    public bool inGame = false;
+
+    void OnCollisionStay()
     {
         timeLeft = time;
+    }
+
+    internal void start()
+    {
+        throw new NotImplementedException();
     }
 
     public void Start()
@@ -26,8 +35,10 @@ public class movement : MonoBehaviour
 
     void Update ()
     {
+        if (!inGame) return;
+
         timeLeft -= Time.deltaTime;
-        if (timeLeft < 0.0f) Menu.PlayGame();
+        if (timeLeft < 0.0f) SceneManager.LoadScene("Game");
 
         alfa = 0.0f;
         if (Input.GetKey(KeyCode.LeftArrow)) alfa = -osetljivost;
