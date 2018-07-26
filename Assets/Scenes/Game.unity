@@ -124,8 +124,8 @@ GameObject:
   - component: {fileID: 202691911}
   - component: {fileID: 202691910}
   - component: {fileID: 202691909}
-  - component: {fileID: 202691913}
   - component: {fileID: 202691914}
+  - component: {fileID: 202691913}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -207,9 +207,9 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 202691908}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0.02
-  m_AngularDrag: 0.2
+  m_Mass: 10
+  m_Drag: 0
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -226,9 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c114d7d103fbae409e93be942570159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  po: {fileID: 988029941}
-  rb: {fileID: 202691913}
-  brzina: 1
+  brzina: 40
+  osetljivost: 1
 --- !u!1 &494336369
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fbf14c5c4c2a34dacc37636182d75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 202691912}
+  player: {fileID: 202691913}
 --- !u!1 &1315414904
 GameObject:
   m_ObjectHideFlags: 0

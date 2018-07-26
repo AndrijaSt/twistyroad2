@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    public Transform po;
-    public Rigidbody rb;
-    public float brzina = 0.6f;
+    static public float alfa;
+    public float brzina = 2.0f;
+    public float osetljivost = 2.0f;
+    private Vector3 v;
+    private Rigidbody rb;
 
-	void FixedUpdate ()
+    private void Start()
     {
-        rb.rotation.SetLookRotation(rb.velocity);
-        if (Input.GetKey("w")) rb.AddForce(Quaternion.AngleAxis(po.rotation.eulerAngles.y, po.up) * new Vector3(0.0f, 0.0f,  brzina), ForceMode.VelocityChange);
-        if (Input.GetKey("s")) rb.AddForce(Quaternion.AngleAxis(po.rotation.eulerAngles.y, po.up) * new Vector3(0.0f, 0.0f, -brzina), ForceMode.VelocityChange);
-        if (Input.GetKey("d")) rb.AddForce(Quaternion.AngleAxis(po.rotation.eulerAngles.y, po.up) * new Vector3( brzina, 0.0f, 0.0f), ForceMode.VelocityChange);
-        if (Input.GetKey("a")) rb.AddForce(Quaternion.AngleAxis(po.rotation.eulerAngles.y, po.up) * new Vector3(-brzina, 0.0f, 0.0f), ForceMode.VelocityChange);
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = new Vector3(0.0f, 0.0f, brzina);
+    }
+
+    void Update ()
+    {
+        alfa = 0.0f;
+        if (Input.GetKey(KeyCode.LeftArrow)) alfa = -osetljivost;
+        if (Input.GetKey(KeyCode.RightArrow)) alfa = osetljivost;
+        rb.velocity = Quaternion.AngleAxis(alfa, Vector3.up) * rb.velocity; 
     }
 }

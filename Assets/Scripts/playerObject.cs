@@ -2,24 +2,17 @@
 
 public class playerObject : MonoBehaviour
 {
-    public Transform player;
-    //private float rot;
+    public Rigidbody player;
+    private Transform t;
 
     void Start()
     {
-        Screen.lockCursor = true;
+        t = GetComponent<Transform>();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (Input.GetKeyDown("t")) Screen.lockCursor = false;
-        if (Input.GetKeyUp("t")) Screen.lockCursor = true;
-
-        transform.position = player.position;
-
-        //rot = player.eulerAngles.y;
-
-        transform.eulerAngles += new Vector3(0, Input.GetAxis("Mouse X")*2, 0);
-
+        t.position = player.position;
+        t.rotation = Quaternion.AngleAxis(movement.alfa, Vector3.up) * t.rotation;
     }
 }
