@@ -4,31 +4,28 @@ using UnityEngine;
 
 public class Road : MonoBehaviour
 {
-    public float rotation = 0.5f;
+    public float Rotation = 2.0f;
     public int length = 100;
     public float width = 0.5f;
-    public float slope = 0.3f;
-    public float step = 0.5f;
-    private  float beta;
-    private Vector3 normala = new Vector3(0.0f, 1.0f, 0.0f);
+    public float Slope = 0.3f;
+    public float Step = 0.4f;
+    private float rot;
+    private Vector3 step;
+    private Vector3 slope;
+    private Vector3 left;
+    private Vector3 right;
+    private Vector3 cor;
+    private float rotation;
 
-    private Vector3 Norm(Vector3 vec)
+    private float Rand()
     {
-        return Quaternion.AngleAxis(90, normala) * vec;
-    }
 
-    private Vector3 Rand (Vector3 vec)
-    {
-        float angle = Random.Range(-57.3f * beta, 57.3f * beta);
-
-        normala = Quaternion.AngleAxis(angle/2, Vector3.up) * normala;
-        return Quaternion.AngleAxis(angle, normala) * vec;
+        rotation += Random.Range(-Rotation, Rotation);
+        return rotation;
     }
 
 	void Start ()
     {
-        beta = 2 * Mathf.Asin(step / width) * rotation;
-
         var mf = GetComponent<MeshFilter>();
         var mc = GetComponent<MeshCollider>();
         var mesh = new Mesh();
@@ -36,21 +33,23 @@ public class Road : MonoBehaviour
 
         var vertices = new Vector3[length];
 
-        Vector3 vec = new Vector3(0, -slope, step);
-        Vector3 cor = new Vector3(0, 0, 0);
-        vertices[0] = cor + new Vector3( width/2, 0f, 0f);
-        vertices[1] = cor + new Vector3(-width/2, 0f, 0f);
+        step = new Vector3(0.0f, 0.0f, Step);
+        slope = new Vector3(0.0f, -Slope, 0.0f);
+        right = new Vector3(width/2, 0.0f, 0.0f);
+        left = new Vector3(-width / 2, 0.0f, 0.0f);
+
+        vertices[0] = step + slope + right;
+        vertices[1] = step + slope + left;
 
         for(int i=2; i<length; i+=2)
         {
-            Vector3 v = Rand(vec);
-            Vector3 tac = (Norm(v) + Norm(vec)).normalized * width / 2;
-
-            cor += vec;
-            vertices[i]   = cor + tac;
-            vertices[i+1] = cor - tac;
-
-            vec = v;
+            rot = Rand();
+            step = Quaternion.AngleAxis(rot, Vector3.up) * step;
+            left = Quaternion.AngleAxis(rot, Vector3.up) * left;
+            right = Quaternion.AngleAxis(rot, Vector3.up) * right;
+            cor += step + slope;
+            vertices[i]   = cor + right;
+            vertices[i+1] = cor + left;
         }
 
         mesh.vertices = vertices;
@@ -67,18 +66,6 @@ public class Road : MonoBehaviour
             tri[j++] = i;
             tri[j++] = i - 1;
         }
-
-        /*
-        for (int i = 3; i < vertices.Length; i += 2)
-        {
-            tri[j++] = i - 3;
-            tri[j++] = i;
-            tri[j++] = i - 2;
-            tri[j++] = i - 3;
-            tri[j++] = i - 1;
-            tri[j++] = i;
-        }
-        */
 
         mesh.triangles = tri;
 
